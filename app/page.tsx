@@ -1,24 +1,53 @@
 "use client";
 
 import { useChat } from "ai/react";
+import { useActions, useUIState } from "ai/rsc";
+import { AI } from "./action";
+import { useState } from "react";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useUIState<typeof AI>();
+  const { submitUserMessage } = useActions<typeof AI>();
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+
+          // Add user message to UI state
+          setMessages((currentMessages) => [
+            ...currentMessages,
+            {
+              id: Date.now(),
+              display: <div>{inputValue}</div>,
+            },
+          ]);
+
+          // Submit and get response message
+          const responseMessage = await submitUserMessage(inputValue);
+          setMessages((currentMessages) => [
+            ...currentMessages,
+            responseMessage,
+          ]);
+
+          setInputValue("");
+        }}
+      >
         <input
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
+          placeholder="Send a message..."
+          value={inputValue}
+          onChange={(event) => {
+            setInputValue(event.target.value);
+          }}
         />
       </form>
-      {messages.map((m) => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === "user" ? "User: " : "AI: "}
-          {m.content}
-        </div>
-      ))}
+      {
+        // View messages in UI state
+        messages.map((message) => (
+          <div key={message.id}>{message.display}</div>
+        ))
+      }
     </div>
   );
 }
