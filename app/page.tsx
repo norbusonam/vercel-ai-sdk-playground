@@ -1,10 +1,7 @@
-import Link from "next/link";
-
-export default function Chat() {
+export default function Home() {
   return (
     <div>
-      <Link href="/chat">Chat</Link>
-      <Link href="/gen-ui">Gen UI</Link>
+      <h1>Home</h1>
     </div>
   );
 }
