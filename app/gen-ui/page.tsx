@@ -3,6 +3,7 @@
 import { useActions, useUIState } from "ai/rsc";
 import { AI } from "./action";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState("");
@@ -33,7 +34,7 @@ export default function Chat() {
           setInputValue("");
         }}
       >
-        <input
+        <Input
           placeholder="Send a message..."
           value={inputValue}
           onChange={(event) => {

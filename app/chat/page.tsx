@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { useChat } from "ai/react";
 
 export default function Chat() {
@@ -7,7 +8,7 @@ export default function Chat() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           value={input}
           placeholder="Say something..."
           onChange={handleInputChange}
