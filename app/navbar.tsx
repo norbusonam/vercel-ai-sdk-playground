@@ -22,7 +22,7 @@ export function Navbar() {
   const { setTheme } = useTheme();
 
   return (
-    <NavigationMenu className="p-2 flex justify-between">
+    <NavigationMenu className="py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
