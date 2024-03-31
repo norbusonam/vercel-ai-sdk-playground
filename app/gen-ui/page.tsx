@@ -1,16 +1,23 @@
 "use client";
 
-import { useActions, useUIState } from "ai/rsc";
-import { AI } from "./action";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { useUIState, useActions } from "ai/rsc";
+import type { AI } from "./action";
 
-export default function Chat() {
+export default function Page() {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useUIState<typeof AI>();
   const { submitUserMessage } = useActions<typeof AI>();
+
   return (
     <div>
+      {
+        // View messages in UI state
+        messages.map((message) => (
+          <div key={message.id}>{message.display}</div>
+        ))
+      }
+
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -34,7 +41,7 @@ export default function Chat() {
           setInputValue("");
         }}
       >
-        <Input
+        <input
           placeholder="Send a message..."
           value={inputValue}
           onChange={(event) => {
@@ -42,12 +49,6 @@ export default function Chat() {
           }}
         />
       </form>
-      {
-        // View messages in UI state
-        messages.map((message) => (
-          <div key={message.id}>{message.display}</div>
-        ))
-      }
     </div>
   );
 }
